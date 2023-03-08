@@ -1,0 +1,1 @@
+package reivosar.domain.model.message;

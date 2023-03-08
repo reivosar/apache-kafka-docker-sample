@@ -1,0 +1,66 @@
+version: "3.7"
+services:
+  app:
+    container_name: spring-boot-app
+    image: openjdk:17-slim
+    ports:
+      - "8080:8080"
+    links:
+      - db
+      - apache_kafka
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      JAVA_HEAP_SIZE_MB: 1024
+    volumes:
+      - "./build/libs/spring-boot-app.jar:/tmp/spring-boot-app.jar"
+    entrypoint: "java -Djava.security.egd=file:/dev/./urandom -jar /tmp/spring-boot-app.jar"
+  db:
+    container_name: postgres
+    image: postgres:11.5
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: "my_postgres"
+    ports:
+      - "5432:5432"
+    volumes:
+      - "postgres_data:/var/lib/postgresql/data"
+      - "./docker/db/initdb:/docker-entrypoint-initdb.d"
+  zookeeper:
+    container_name: zookeeper
+    image: zookeeper:3.4.9
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    volumes:
+      - zookeeper_data:/data
+      - zookeeper_datalog:/datalog
+  apache_kafka:
+    container_name: apache_kafka
+    image: confluentinc/cp-kafka:5.5.0
+    depends_on:
+      - zookeeper
+    hostname: apache_kafka
+    ports:
+      - "29092:29092"
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://apache_kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - apache_kafka_data:/var/lib/kafka/data
+volumes:
+  postgres_data:
+    external: true
+  zookeeper_data:
+    external: true
+  zookeeper_datalog:
+    external: true
+  apache_kafka_data:
+    external: true

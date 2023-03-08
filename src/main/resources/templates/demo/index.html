@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="utf-8">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<title>Title</title>
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}" />
+</head>
+<body>
+	<div th:text="${hello}"></div>
+	<script th:src="@{/webjars/jquery/3.6.3/jquery.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
+</body>
+<script>
+<!--
+$(function() {
+    $("#submitBtn").click(function(){
+        var data = {
+        	message: form.message.value
+        };
+        $.ajax({
+            url: "/message/post",
+            type: "POST",
+            data:JSON.stringify(data),
+            contentType: 'application/json',
+            dataType: "json",
+            success: function(data){
+            }
+        });
+    });
+});
+//-->
+</script>
+<header>
+	<nav class="navbar navbar-dark bg-dark">
+		<a href="#" class="navbar-brand">Demo</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navmenu1" aria-controls="navmenu1"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navmenu1">
+			<div class="navbar-nav"></div>
+		</div>
+	</nav>
+</header>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12 text-center">
+			<h1 class="mt-5">Demo Page</h1>
+			<p class="lead">A page to try out the following technologies for CQRS</p>
+			<ul class="list-unstyled">
+				<li>Web Socket, Apache Kafka</li>
+			</ul>
+		</div>
+	</div>
+	<hr>
+	<div class="col-sm-10 offset-sm-1 text-center">
+		<form action="" class="form-inline justify-content-center" method="POST" th:object="${form}" name="form">
+			<div class="form-group">
+				<label class="sr-only" for="text5a">Message</label>
+				<input
+					type="text" class="form-control mb-2 input-sm-10" id="inputMessage"
+					placeholder="Message" th:field="*{message}">
+			</div>
+			<div class="col-auto">
+				<button type="submit" id="submitBtn" class="btn btn-primary mb-2">Send</button>
+			</div>
+		</form>
+	</div>
+</div>
+</html>
