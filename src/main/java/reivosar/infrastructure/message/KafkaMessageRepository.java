@@ -29,7 +29,7 @@ public class KafkaMessageRepository implements MessageReposiory {
 	public void save(Message message) {
 		loggers.info("Event publishing start: publicId:" + message.identity());
 		domainEventPublisher
-			.awaitPublish(message)
+			.publishAll(message.allEvents())
 			.onSuccess(
                     result -> loggers.debug("Event publishing success. "
                             + "event:" + message + " ,result:" + result)
