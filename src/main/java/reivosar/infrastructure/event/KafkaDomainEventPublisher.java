@@ -21,6 +21,7 @@ public class KafkaDomainEventPublisher implements DomainEventPublisher {
     public KafkaDomainEventPublisher(KafkaTemplate<String, String> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
+    
     @Override
     public Promise<?> publish(final Event event) {
         return Promise.resolve(() -> this.kafkaTemplate.send(event.getEventTopic(), JsonUtil.serialize(event)));
