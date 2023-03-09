@@ -29,8 +29,8 @@ public class KafkaDomainEventPublisher implements DomainEventPublisher {
     
     @Override
     public Promise<?> publishAll(final Collection<Event> events) {
-        return Promise.all(events.stream().map(
-                        e -> (Supplier<Object>) () -> kafkaTemplate.send(e.getEventTopic(), JsonUtil.serialize(e)))
+        return Promise.all(events.stream()
+                .map(e -> (Supplier<Object>) () -> kafkaTemplate.send(e.getEventTopic(), JsonUtil.serialize(e)))
                 .collect(Collectors.toList()));
     }
 }

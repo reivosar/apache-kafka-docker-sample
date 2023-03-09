@@ -37,7 +37,7 @@ public class CreateMessageUseCase
 	}
 
 	public static class Response {
-		private MessageId messageId;
+		private final MessageId messageId;
 
 		private Response(final MessageId messageId) {
 			this.messageId = messageId;

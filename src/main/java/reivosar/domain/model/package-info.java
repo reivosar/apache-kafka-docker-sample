@@ -1,1 +1,0 @@
-package reivosar.domain.model;

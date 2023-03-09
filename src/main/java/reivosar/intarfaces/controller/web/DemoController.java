@@ -8,11 +8,10 @@ import reivosar.intarfaces.model.web.DemoForm;
 
 @Controller
 @RequestMapping(value = "demo")
-public class DemoController
-{
-	@RequestMapping("")
-	public String home(Model model) {
-		model.addAttribute("form", new DemoForm());
-		return "demo/index";
-	}
+public class DemoController {
+    @RequestMapping("")
+    public String home(Model model) {
+        model.addAttribute("form", new DemoForm());
+        return "demo/index";
+    }
 }

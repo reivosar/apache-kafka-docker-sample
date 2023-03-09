@@ -10,33 +10,33 @@ import reivosar.domain.model.message.MessageReposiory;
 
 @Component
 public class KafkaMessageRepository implements MessageReposiory {
-
-	private static final Loggers loggers = Loggers.getLoggers(KafkaMessageRepository.class);
-
+    
+    private static final Loggers loggers = Loggers.getLoggers(KafkaMessageRepository.class);
+    
     private final DomainEventPublisher domainEventPublisher;
     
     @Autowired
-	public KafkaMessageRepository(DomainEventPublisher domainEventPublisher) {
-		this.domainEventPublisher = domainEventPublisher;
-	}
-
-	@Override
-	public MessageId generateId() {
-		return new MessageId();
-	}
-
-	@Override
-	public void save(Message message) {
-		loggers.info("Event publishing start: publicId:" + message.identity());
-		domainEventPublisher
-			.publishAll(message.allEvents())
-			.onSuccess(
-                    result -> loggers.debug("Event publishing success. "
-                            + "event:" + message + " ,result:" + result)
-			)
-			.onFailure(
-                    t -> loggers.error("Event publishing error.", t)
-			);
-		loggers.info("Event publishing end: publicId:" + message.identity());
-	}
+    public KafkaMessageRepository(DomainEventPublisher domainEventPublisher) {
+        this.domainEventPublisher = domainEventPublisher;
+    }
+    
+    @Override
+    public MessageId generateId() {
+        return new MessageId();
+    }
+    
+    @Override
+    public void save(Message message) {
+        loggers.info("Event publishing start: publicId:" + message.identity());
+        domainEventPublisher
+                .publishAll(message.allEvents())
+                .onSuccess(
+                        result -> loggers.debug("Event publishing success. "
+                                + "event:" + message + " ,result:" + result)
+                )
+                .onFailure(
+                        t -> loggers.error("Event publishing error.", t)
+                );
+        loggers.info("Event publishing end: publicId:" + message.identity());
+    }
 }

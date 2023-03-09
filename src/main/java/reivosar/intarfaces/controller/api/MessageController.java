@@ -13,20 +13,19 @@ import reivosar.intarfaces.model.api.MessageRequest;
 
 @RestController
 @RequestMapping("message")
-public class MessageController
-{
-	private final MessageUseCaseStore messageUseCaseStore;
-
-	@Autowired
+public class MessageController {
+    private final MessageUseCaseStore messageUseCaseStore;
+    
+    @Autowired
     public MessageController(MessageUseCaseStore messageUseCaseStore) {
-		this.messageUseCaseStore = messageUseCaseStore;
-	}
-
-	@ResponseBody
-	@RequestMapping(value = "/post", method = RequestMethod.POST)
-	public void postMessage(@RequestBody MessageRequest message) {
-		final CreateMessageUseCase useCase = messageUseCaseStore.getCreateMessageUseCase();
-		final CreateMessageUseCase.Request request = new CreateMessageUseCase.Request(message.getMessage());
-		useCase.execute (request);
-	}
+        this.messageUseCaseStore = messageUseCaseStore;
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "/post", method = RequestMethod.POST)
+    public void postMessage(@RequestBody MessageRequest message) {
+        final CreateMessageUseCase useCase = messageUseCaseStore.getCreateMessageUseCase();
+        final CreateMessageUseCase.Request request = new CreateMessageUseCase.Request(message.getMessage());
+        useCase.execute(request);
+    }
 }
